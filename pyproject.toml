@@ -5,10 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "ipywidgets>=8.1.8",
     "matplotlib>=3.10.8",
     "numpy>=2.4.2",
     "pandas>=3.0.1",
+    "pandas-profiling>=3.0.0",
     "requests>=2.32.5",
     "scikit-learn>=1.8.0",
     "torch>=2.10.0",
+    "widgetsnbextension>=4.0.15",
 ]

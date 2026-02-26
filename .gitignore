@@ -1,2 +1,3 @@
 data/**
 image_classifier_model.onnx
+__pycache__/*.pyc

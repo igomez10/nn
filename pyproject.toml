@@ -19,3 +19,8 @@ dependencies = [
     "torchviz>=0.0.3",
     "widgetsnbextension>=4.0.15",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]

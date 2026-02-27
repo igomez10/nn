@@ -16,6 +16,7 @@ dependencies = [
     "scikit-learn>=1.8.0",
     "torch>=2.10.0",
     "torchview>=0.2.7",
+    "torchvision>=0.25.0",
     "torchviz>=0.0.3",
     "widgetsnbextension>=4.0.15",
 ]

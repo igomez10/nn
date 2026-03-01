@@ -1,3 +1,4 @@
 data/**
 image_classifier_model.onnx
-__pycache__/*.pyc
+**/__pycache__/*.pyc
+loans/submission_loans.csv

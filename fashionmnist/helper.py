@@ -19,6 +19,7 @@ labels_map = {
     8: "Bag",
     9: "Ankle Boot",
 }
+
 class fashionClassifierMLP(nn.Module):
     def __init__(self):
         super().__init__()
@@ -39,9 +40,11 @@ class fashionClassifierMLP(nn.Module):
         return logits
 
 
-def train_loop(epochs: int, dataloader: DataLoader, model: nn.Module, lossFn: nn.Module, optimizer: torch.optim.Optimizer):
+def train_loop(epochs: int, dataloader: DataLoader, model: nn.Module, lossFn: nn.Module, optimizer: torch.optim.Optimizer, device: torch.device):
+    model.train()
     for i in range(epochs):
         for image, expected_label in dataloader:
+            image, expected_label = image.to(device), expected_label.to(device)
             optimizer.zero_grad()
             pred = model(image)
 
@@ -50,7 +53,7 @@ def train_loop(epochs: int, dataloader: DataLoader, model: nn.Module, lossFn: nn
 
             optimizer.step()
             if i % 10 == 0:
-                print("loss", loss.item(), end='\r')
+                print("epoch", i, "loss", loss.item(), end='\r')
         print("epoch", i, "loss", loss.item())
 
 
@@ -74,3 +77,36 @@ def get_data() -> tuple[datasets.FashionMNIST, datasets.FashionMNIST]:
   )
 
   return training_data, test_data
+
+class fashionClassifierCNN(nn.Module):
+#  Determine what layers and their order in CNN object 
+    def __init__(self, num_classes, in_channels=3):
+        super().__init__()
+        self.conv_layer1 = nn.Conv2d(in_channels=in_channels, out_channels=32, kernel_size=3)
+        self.conv_layer2 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3)
+        self.max_pool1 = nn.MaxPool2d(kernel_size = 2, stride = 2)
+        
+        self.conv_layer3 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3)
+        self.conv_layer4 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3)
+        self.max_pool2 = nn.MaxPool2d(kernel_size = 2, stride = 2)
+        
+        self.fc1 = nn.Linear(1024, 128)
+        self.relu1 = nn.ReLU()
+        self.fc2 = nn.Linear(128, num_classes)
+    
+    # Progresses data across layers    
+    def forward(self, x):
+        out = self.conv_layer1(x)
+        out = self.conv_layer2(out)
+        out = self.max_pool1(out)
+        
+        out = self.conv_layer3(out)
+        out = self.conv_layer4(out)
+        out = self.max_pool2(out)
+                
+        out = out.reshape(out.size(0), -1)
+        
+        out = self.fc1(out)
+        out = self.relu1(out)
+        out = self.fc2(out)
+        return out

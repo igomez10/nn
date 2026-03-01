@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../.cache/kagglehub/datasets"
+		},
+		{
+			"path": "../.cache/kagglehub/competitions"
 		}
 	],
 	"settings": {}

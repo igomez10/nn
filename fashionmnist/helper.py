@@ -110,3 +110,23 @@ class fashionClassifierCNN(nn.Module):
         out = self.relu1(out)
         out = self.fc2(out)
         return out
+
+def evaluateWithMax(model: nn.Module, dataloader: DataLoader, device: torch.device, ):
+    model.eval()
+    num_correct = 0
+    num_samples = 0
+    accuracy = 0
+    with torch.inference_mode():
+        for x, y in dataloader:
+            x, y = x.to(device), y.to(device)
+            pred = model(x)
+            _, predicted = torch.max(pred, 1) # get the index of the max log-probability
+            num_correct += (predicted == y).sum()
+            num_samples += predicted.size(0)
+
+
+
+    accuracy = float(num_correct) / float(num_samples)
+    print(f"Got {num_correct} / {num_samples} with accuracy {accuracy:.2f}") 
+
+

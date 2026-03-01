@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "ipywidgets>=8.1.8",
+    "kagglehub>=1.0.0",
     "matplotlib>=3.10.8",
     "numpy>=2.4.2",
     "onnx>=1.20.1",
